@@ -1,0 +1,6 @@
+.main-image{
+    border-radius: 12%;
+    height: 30vh;
+    width: 30vh;
+    object-fit: cover;
+}

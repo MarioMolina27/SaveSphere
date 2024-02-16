@@ -1,0 +1,16 @@
+.title{
+   font-family: 'Asap', sans-serif;
+   color: #577399 !important;
+}
+
+.game-name{
+   color: #577399 !important;
+}
+
+.content {
+   width: 600px;
+}
+
+.text-result:hover{
+   background-color: #ecedf0 !important;
+}
