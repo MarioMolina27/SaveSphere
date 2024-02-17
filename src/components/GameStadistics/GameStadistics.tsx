@@ -11,7 +11,6 @@ interface Props {
 
 export function GameStadistics ({ currentData, lowestData, gameInfoData }: Props){
     const game = currentData.game && currentData.game[0];
-    const lowest = lowestData;
     const discountPercentage = Math.round(((game?.priceOld ?? 0) - (game?.priceNew ?? 0)) / (game?.priceOld ?? 1) * 100);
     
 
@@ -32,9 +31,9 @@ export function GameStadistics ({ currentData, lowestData, gameInfoData }: Props
                     </Card>
 
                     <Card className="max-w-xs mx-auto">
-                        <Text>Lowest price - {lowest?.shop ?? 'none'}</Text>
-                        <Metric>{lowest?.priceNew ?? 'none'}</Metric>
-                        <ProgressBar percentageValue={lowest?.cut ?? 0} color="slate" className="mt-3" />
+                        <Text>Lowest price - {lowestData?.shop ?? 'none'}</Text>
+                        <Metric>{lowestData?.priceNew ?? 'none'}</Metric>
+                        <ProgressBar percentageValue={lowestData?.cut ?? 0} color="slate" className="mt-3" />
                     </Card>
                 </Col>
             </Grid>

@@ -1,19 +1,21 @@
-import { SelectBox, SelectBoxItem, TextInput, Flex, Button, Card, Text } from '@tremor/react';
+import { TextInput, Flex, Button, Card, Text } from '@tremor/react';
 import { SearchIcon } from "@heroicons/react/solid";
 import { useState } from 'react';
 import { useGameSearch } from '../../hooks/useGameSearch';
+import { useDebounce } from '../../hooks/useDebounce ';
 
 interface Props {
-    query: string;
     onSearch: (query: string) => void;
 }
 
-export function SearchBar({ onSearch, query }: Props) {
+export function SearchBar({ onSearch }: Props) {
 
     const [showResults, setShowResults] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const debouncedSearchQuery = useDebounce(searchQuery, 350); 
 
-    const { dataSearch, isErrorSearch, isLoadingSearch } = useGameSearch(searchQuery);
+
+    const { dataSearch, isErrorSearch, isLoadingSearch } = useGameSearch(debouncedSearchQuery);
 
 
     function handleSearch(event: React.FormEvent<HTMLFormElement>) {
@@ -48,7 +50,7 @@ export function SearchBar({ onSearch, query }: Props) {
                 </Flex>
             </form>
 
-            {showResults && !isLoadingSearch && dataSearch && dataSearch.length > 0 && (
+            {showResults && !isLoadingSearch && !isErrorSearch && dataSearch && dataSearch.length > 0 && (
                 <div className="results-box absolute z-10 mt-2 content">
                     <Card className="mx-auto mb-7">
                         {dataSearch.map((item) => (

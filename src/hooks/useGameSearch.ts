@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchGameSearch } from "../services/search";
+import { useDebounce } from "./useDebounce ";
+
 
 export const useGameSearch = (query: string) => {
+    
     const {data, isError,isLoading} = useQuery({
         queryKey: ['gameSearch', query],
         queryFn: async () => {
