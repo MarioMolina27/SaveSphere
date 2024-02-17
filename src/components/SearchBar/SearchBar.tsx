@@ -2,7 +2,7 @@ import { TextInput, Flex, Button, Card, Text } from '@tremor/react';
 import { SearchIcon } from "@heroicons/react/solid";
 import { useState } from 'react';
 import { useGameSearch } from '../../hooks/useGameSearch';
-import { useDebounce } from '../../hooks/useDebounce ';
+import { useDebounce } from '../../hooks/useDebounce';
 
 interface Props {
     onSearch: (query: string) => void;

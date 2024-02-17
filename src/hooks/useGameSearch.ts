@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchGameSearch } from "../services/search";
-import { useDebounce } from "./useDebounce ";
+import { useDebounce } from "./useDebounce";
 
 
 export const useGameSearch = (query: string) => {

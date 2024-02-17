@@ -1,6 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
 import { fetchPrices, fetchLowPrice, fetchBundles, fetchGameInfo } from "../services/prices";
-import { useDebounce } from "./useDebounce ";
+import { useDebounce } from "./useDebounce";
 
 export const useGame = (query: string) => {
   const queries = useQueries({
