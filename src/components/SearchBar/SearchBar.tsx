@@ -3,6 +3,7 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { useState } from 'react';
 import { useGameSearch } from '../../hooks/useGameSearch';
 import { useDebounce } from '../../hooks/useDebounce';
+import { GameSearchResponse } from '../../new_types';
 
 interface Props {
     onSearch: (query: string) => void;
@@ -54,9 +55,9 @@ export function SearchBar({ onSearch }: Props) {
                 <div className="results-box absolute z-10 mt-2 content">
                     <Card className="mx-auto mb-7">
                         {dataSearch.map((item) => (
-                            <div key={item.new_id}
+                            <div key={item.id}
                                 onClick={() => {
-                                    setSearchQuery(item.plain);
+                                    setSearchQuery(item.id);
                                     setShowResults(false);
                                 }}>
                                 <Text

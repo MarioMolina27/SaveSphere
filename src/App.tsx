@@ -21,8 +21,8 @@ function App() {
 			<SearchBar onSearch={handleSearch} />
 			{!isLoading && !isError && currentData && lowestData && bundlesData && gameInfoData && (
 				<>
-					<GameStadistics currentData={currentData} lowestData={lowestData.lowest} gameInfoData={gameInfoData.gameInfo} /> 
-					<PriceChart currentData={currentData} />
+					<GameStadistics currentData={currentData} lowestData={lowestData.lowest} gameInfoData={gameInfoData.gameInfo } /> 
+					<PriceChart currentData={currentData } />
 					<Bundles bundles={bundlesData} />
 				</>
 			)}

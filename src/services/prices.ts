@@ -1,40 +1,57 @@
 import { GameCurrent, GameLowest, GameBundle, GameInfo, LowestData} from '../types';
-import { formatingUnixDate } from '../utils/utils';
-import { formatingQuery } from '../utils/utils';
+import { BundleResponse } from '../new_types';
 
 const apiKey = import.meta.env.VITE_ITAD_API_KEY;
 
-export const fetchPrices = async (gameName: string) => {
-  const url = `https://private-anon-2bf9bed617-itad.apiary-proxy.com/v01/game/prices/?key=${apiKey}&plains=${formatingQuery(gameName)}&region=eu2`;
+export const fetchPrices = async (gameIds: string[]) => {
+  gameIds = ['01849783-6a26-7147-ab32-71804ca47e8e',]
+  const url = `https://api.isthereanydeal.com/games/prices/v2?key=${apiKey}`;
+
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(gameIds),
+    });
 
     if (!response.ok) throw new Error('Error en la petición');
 
     const data = await response.json();
-    const firstGame: GameCurrent | undefined = Object.values(data.data)[0] as GameCurrent;
+    console.log(data);
 
-    if (firstGame?.list?.length) {
-      const prices = firstGame.list.map((game) => ({
-        priceNew: game.price_new,
-        priceOld: game.price_old,
-        shop: game.shop.name,
-      }));
+    // for (const game of Object.values(data.data)) {
+    //   if (game.list?.length) {
+    //     prices.push(...game.list.map((item: any) => ({
+    //       priceNew: item.price_new,
+    //       priceOld: item.price_old,
+    //       shop: item.shop.name,
+    //     })));
+    //   }
+    // }
 
-      return prices;
-    } else {
-      console.log("No se encontraron datos de juegos.");
-    }
+    return data;
   } catch (error) {
+    console.log(error)
     console.error('Error al realizar la petición:', error);
     throw error;
   }
 };
 
 export const fetchLowPrice = async (gameName: string) => {
-  const url = `https://private-anon-2bf9bed617-itad.apiary-proxy.com/v01/game/lowest/?key=${apiKey}&plains=${formatingQuery(gameName)}&shops=steam%2Cgog%2Cepic%2Chumblestore`
+  const url = `https://api.isthereanydeal.com/games/historylow/v1?key=${apiKey}`
   try {
-    const response = await fetch(url);
+    const response = await fetch(url,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(gameName),
+    });
 
     if (!response.ok) throw new Error('Error en la petición');
 
@@ -59,19 +76,27 @@ export const fetchLowPrice = async (gameName: string) => {
 };
 
 export const fetchBundles = async (gameName: string) => {
-  const url = `https://private-anon-240f96f87f-itad.apiary-proxy.com/v01/game/bundles/?key=${apiKey}&plains=${formatingQuery(gameName)}`;
+  const url = `https://api.isthereanydeal.com/games/bundles/v2?key=${apiKey}&id=${gameName}`;
   try {
     const response = await fetch(url);
 
     if (!response.ok) throw new Error('Error en la petición');
 
     const data = await response.json();
-    const gameBundle: GameBundle | undefined = Object.values(data.data)[0] as GameBundle;
-    const bundles = gameBundle.list.map((bundle) => ({
-      title: bundle.title,
-      bundle: bundle.bundle,
-      expiry: formatingUnixDate(bundle.expiry),
-    }));
+    console.log(data);
+    let bundles;
+    if(data.length === 0) {
+      bundles = [];
+    }
+    else{
+      const bundles: BundleResponse[] = data.list.map((bundle: BundleResponse) => ({
+        title: bundle.title,
+        bundle: bundle.page.name,
+        expiry: bundle.expiry,
+      }));
+    }
+
+    console.log(bundles);
 
     return bundles;
 
@@ -82,18 +107,16 @@ export const fetchBundles = async (gameName: string) => {
 }
 
 export const fetchGameInfo = async (gameName: string) => {
-  const url = `https://private-anon-5b349637e2-itad.apiary-proxy.com/v01/game/info/?key=${apiKey}&plains=${formatingQuery(gameName)}`;
+  console.log(gameName);
+  const url = `https://api.isthereanydeal.com/games/info/v2?key=${apiKey}&id=${gameName}`;
   try {
     const response = await fetch(url);
 
     if (!response.ok) throw new Error('Error en la petición');
 
     const data = await response.json();
-    const keys = Object.keys(data.data);
-
-    const gameInfo = data.data[keys[0]] as GameInfo;
-
-    return gameInfo;
+    console.log(data);
+    return data;
   } catch (error) {
     console.error('Error al realizar la petición:', error);
     throw error;

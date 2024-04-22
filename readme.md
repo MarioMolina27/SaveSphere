@@ -2,6 +2,8 @@
 
 SaveSphere is a web application that allows users to compare prices of video games across different platforms, helping them find the most affordable option. This project was created as a learning exercise of Typescript and React Query. The application relies on key dependencies including React, React Query, Typescript, and Tremor.
 
+## ⚠️ **Attention:**  Currently, the application is not functioning due to issues with the external API. Price queries are not working correctly 
+
 ## Dependencies
 - React
 - React Query

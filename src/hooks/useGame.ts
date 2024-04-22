@@ -9,7 +9,7 @@ export const useGame = (query: string) => {
         queryKey: ['game', query],
         queryFn: async () => {
           try {
-            const result = await fetchPrices(query);
+            const result = await fetchPrices([query,]);
             return {
               game: result, 
             };
